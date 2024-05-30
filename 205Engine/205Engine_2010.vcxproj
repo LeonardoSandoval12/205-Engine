@@ -424,11 +424,22 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="205Engine.cpp" />
+    <ClCompile Include="Source\BaseApp.cpp" />
+    <ClCompile Include="Source\Device.cpp" />
+    <ClCompile Include="Source\DeviceContext.cpp" />
+    <ClCompile Include="Source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="205Engine.fx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\Device.h" />
+    <ClInclude Include="include\DeviceContext.h" />
+    <ClInclude Include="include\PreRequisites.h" />
+    <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="include\SwapChain.h" />
+    <ClInclude Include="include\window.h" />
     <CLInclude Include="resource.h" />
     <ResourceCompile Include="205Engine.rc" />
   </ItemGroup>
