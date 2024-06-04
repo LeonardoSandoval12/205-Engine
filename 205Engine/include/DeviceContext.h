@@ -16,8 +16,9 @@ public:
 
 	void destroy();
 
+	ID3D11DeviceContext* m_deviceContext = nullptr;
 private:
 
-	ID3D11DeviceContext* m_deviceContext = nullptr;
+	
 
 };
