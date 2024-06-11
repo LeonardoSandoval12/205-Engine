@@ -10,6 +10,8 @@
 #include "window.h"
 #include "Device.h"
 #include "DeviceContext.h"
+#include "Texture.h"
+#include "SwapChain.h"
 
 
 //--------------------------------------------------------------------------------------
@@ -47,12 +49,14 @@ struct CBChangesEveryFrame
 Device                              g_device;
 Window                              g_window;
 DeviceContext                       g_deviceContext;
+SwapChain						    g_swapchain;
+Texture								g_backBuffer;
 
-D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
-D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+//D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
+//D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
 //ID3D11Device*                       g_device.m_device = NULL;
 //ID3D11DeviceContext*                g_deviceContext.m_deviceContext = NULL;
-IDXGISwapChain*                     g_pSwapChain = NULL;
+//IDXGISwapChain*                     g_pSwapChain = NULL;
 ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
 ID3D11Texture2D*                    g_pDepthStencil = NULL;
 ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
@@ -86,8 +90,7 @@ void Render();
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
-int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
-{
+int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow ){
     UNREFERENCED_PARAMETER( hPrevInstance );
     UNREFERENCED_PARAMETER( lpCmdLine );
 
@@ -200,80 +203,84 @@ HRESULT InitDevice()
 
    
    
-    UINT createDeviceFlags = 0;
-#ifdef _DEBUG
-    createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
-
-    D3D_DRIVER_TYPE driverTypes[] =
-    {
-        D3D_DRIVER_TYPE_HARDWARE,
-        D3D_DRIVER_TYPE_WARP,
-        D3D_DRIVER_TYPE_REFERENCE,
-    };
-    UINT numDriverTypes = ARRAYSIZE( driverTypes );
-
-    D3D_FEATURE_LEVEL featureLevels[] =
-    {
-        D3D_FEATURE_LEVEL_11_0,
-        D3D_FEATURE_LEVEL_10_1,
-        D3D_FEATURE_LEVEL_10_0,
-    };
-    UINT numFeatureLevels = ARRAYSIZE( featureLevels );
-
-    DXGI_SWAP_CHAIN_DESC sd;
-    ZeroMemory( &sd, sizeof( sd ) );
-    sd.BufferCount = 1;
-    sd.BufferDesc.Width = g_window.m_width;
-    sd.BufferDesc.Height = g_window.m_height;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = g_window.m_hWnd;
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
-
-    for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
-    {
-        g_driverType = driverTypes[driverTypeIndex];
-        hr = D3D11CreateDeviceAndSwapChain( NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
-                                            D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_device.m_device, &g_featureLevel, &g_deviceContext.m_deviceContext );
-        if( SUCCEEDED( hr ) )
-            break;
-    }
-    if( FAILED( hr ) )
-        return hr;
-
-    // Create a render target view
-    ID3D11Texture2D* pBackBuffer = NULL;
-    hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
-    if( FAILED( hr ) )
-        return hr;
-
-    g_device.CreateRenderTargetView(pBackBuffer, nullptr, &g_pRenderTargetView);
-    //hr = g_device.m_device->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );
-    pBackBuffer->Release();
-   // if( FAILED( hr ) )
-        //return hr;
-
-    // Create depth stencil texture
-    D3D11_TEXTURE2D_DESC descDepth;
-    ZeroMemory( &descDepth, sizeof(descDepth) );
-    descDepth.Width = g_window.m_width;
-    descDepth.Height = g_window.m_height;
-    descDepth.MipLevels = 1;
-    descDepth.ArraySize = 1;
-    descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    descDepth.SampleDesc.Count = 1;
-    descDepth.SampleDesc.Quality = 0;
-    descDepth.Usage = D3D11_USAGE_DEFAULT;
-    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    descDepth.CPUAccessFlags = 0;
-    descDepth.MiscFlags = 0;
-
-    g_device.CreateTexture2D(&descDepth, nullptr, &g_pDepthStencil);
+//    UINT createDeviceFlags = 0;
+//#ifdef _DEBUG
+//    createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+//#endif
+//
+//    D3D_DRIVER_TYPE driverTypes[] =
+//    {
+//        D3D_DRIVER_TYPE_HARDWARE,
+//        D3D_DRIVER_TYPE_WARP,
+//        D3D_DRIVER_TYPE_REFERENCE,
+//    };
+//    UINT numDriverTypes = ARRAYSIZE( driverTypes );
+//
+//    D3D_FEATURE_LEVEL featureLevels[] =
+//    {
+//        D3D_FEATURE_LEVEL_11_0,
+//        D3D_FEATURE_LEVEL_10_1,
+//        D3D_FEATURE_LEVEL_10_0,
+//    };
+//    UINT numFeatureLevels = ARRAYSIZE( featureLevels );
+//
+//    DXGI_SWAP_CHAIN_DESC sd;
+//    ZeroMemory( &sd, sizeof( sd ) );
+//    sd.BufferCount = 1;
+//    sd.BufferDesc.Width = g_window.m_width;
+//    sd.BufferDesc.Height = g_window.m_height;
+//    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+//    sd.BufferDesc.RefreshRate.Numerator = 60;
+//    sd.BufferDesc.RefreshRate.Denominator = 1;
+//    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+//    sd.OutputWindow = g_window.m_hWnd;
+//    sd.SampleDesc.Count = 1;
+//    sd.SampleDesc.Quality = 0;
+//    sd.Windowed = TRUE;
+//
+//    for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
+//    {
+//        g_driverType = driverTypes[driverTypeIndex];
+//        hr = D3D11CreateDeviceAndSwapChain( NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
+//                                            D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_device.m_device, &g_featureLevel, &g_deviceContext.m_deviceContext );
+//        if( SUCCEEDED( hr ) )
+//            break;
+//    }
+//    if( FAILED( hr ) )
+//        return hr;
+     g_swapchain.init(g_device, g_deviceContext, g_backBuffer, g_window);
+//    // Create a render target view
+// 
+// //create Swapchain
+    
+// 
+//    ID3D11Texture2D* pBackBuffer = NULL;
+//    hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );
+//    if( FAILED( hr ) )
+//        return hr;
+//
+       g_device.CreateRenderTargetView(g_backBuffer.m_texture, nullptr, &g_pRenderTargetView);
+//    //hr = g_device.m_device->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );
+       g_backBuffer.m_texture->Release();
+//   // if( FAILED( hr ) )
+//        //return hr;
+//
+//    // Create depth stencil texture
+//    D3D11_TEXTURE2D_DESC descDepth;
+//    ZeroMemory( &descDepth, sizeof(descDepth) );
+//    descDepth.Width = g_window.m_width;
+//    descDepth.Height = g_window.m_height;
+//    descDepth.MipLevels = 1;
+//    descDepth.ArraySize = 1;
+//    descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+//    descDepth.SampleDesc.Count = 1;
+//    descDepth.SampleDesc.Quality = 0;
+//    descDepth.Usage = D3D11_USAGE_DEFAULT;
+//    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+//    descDepth.CPUAccessFlags = 0;
+//    descDepth.MiscFlags = 0;
+//
+//    g_device.CreateTexture2D(&descDepth, nullptr, &g_pDepthStencil);
 
     //hr = g_device.m_device->CreateTexture2D( &descDepth, nullptr, &g_pDepthStencil );
     //if( FAILED( hr ) )
@@ -543,9 +550,10 @@ void CleanupDevice()
     if( g_pDepthStencil ) g_pDepthStencil->Release();
     if( g_pDepthStencilView ) g_pDepthStencilView->Release();
     if( g_pRenderTargetView ) g_pRenderTargetView->Release();
-    if( g_pSwapChain ) g_pSwapChain->Release();
+    //if( g_pSwapChain ) g_pSwapChain->Release();
     //if( g_deviceContext.m_deviceContext ) g_deviceContext.m_deviceContext->Release();
     g_deviceContext.destroy();
+    g_swapchain.destroy();
 
     //if( g_device.m_device ) g_device.m_device->Release();
     g_device.destroy();
@@ -586,7 +594,7 @@ void Render()
 {
     // Update our time
     static float t = 0.0f;
-    if( g_driverType == D3D_DRIVER_TYPE_REFERENCE )
+    if(g_swapchain.m_driverType == D3D_DRIVER_TYPE_REFERENCE )
     {
         t += ( float )XM_PI * 0.0125f;
     }
@@ -642,5 +650,6 @@ void Render()
     //
     // Present our back buffer to our front buffer
     //
-    g_pSwapChain->Present( 0, 0 );
+    //g_pSwapChain->Present( 0, 0 );
+    g_swapchain.present();
 }

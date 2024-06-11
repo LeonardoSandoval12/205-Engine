@@ -11,10 +11,10 @@ public:
     SwapChain() = default;
     ~SwapChain() = default;
 
-    HRESULT
+    void
         init(Device & device,
             DeviceContext & deviceContext,
-            Texture & texture,
+            Texture &backBuffer,
             Window window);
 
     void
@@ -25,6 +25,9 @@ public:
 
     void
         destroy();
+
+    void
+        present();
 
 public:
     IDXGISwapChain* m_swapChain = nullptr;
