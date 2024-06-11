@@ -20,7 +20,10 @@ public:
     HRESULT  CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc,
         const D3D11_SUBRESOURCE_DATA* pInitialData,
         ID3D11Texture2D** ppTexture2D);
-    HRESULT CreateDepthStencilView(ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDepthStencilView);
+    
+    HRESULT CreateDepthStencilView(ID3D11Resource* pResource,
+        const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc,
+        ID3D11DepthStencilView** ppDepthStencilView);
 
     HRESULT CreateVertexShader(const void* pShaderBytecode, unsigned int BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader);
 

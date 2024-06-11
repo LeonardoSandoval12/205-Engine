@@ -425,8 +425,10 @@
   <ItemGroup>
     <ClCompile Include="205Engine.cpp" />
     <ClCompile Include="Source\BaseApp.cpp" />
+    <ClCompile Include="Source\DepthStencilView.cpp" />
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\DeviceContext.cpp" />
+    <ClCompile Include="Source\RenderTargetView.cpp" />
     <ClCompile Include="Source\SwapChain.cpp" />
     <ClCompile Include="Source\Textrure.cpp" />
     <ClCompile Include="Source\window.cpp" />
@@ -436,9 +438,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\DepthStencilView.h" />
     <ClInclude Include="include\Device.h" />
     <ClInclude Include="include\DeviceContext.h" />
     <ClInclude Include="include\PreRequisites.h" />
+    <ClInclude Include="include\RenderTargetView.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\SwapChain.h" />
     <ClInclude Include="include\Texture.h" />
