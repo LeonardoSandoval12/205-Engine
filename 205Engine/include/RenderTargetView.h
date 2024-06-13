@@ -19,6 +19,8 @@ public:
 			DepthStencilView& depthStencilView,
 			unsigned int numViews,
 			float ClearColor[4]);
+
+	void destroy();
 public:
 	ID3D11RenderTargetView* m_renderTargetView = nullptr;
 

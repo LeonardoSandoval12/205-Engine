@@ -14,7 +14,21 @@ public:
 
 	void render();
 
+	void DeviceContext::RSSetViewports(unsigned int NumViewports, const D3D11_VIEWPORT* pViewports)
+	{
+		if (pViewports == nullptr)
+		{
+			ERROR("DeviceContext", "RSSetViewports", "CHECK for const D3D11_VIEWPORT* pViewports")
+				exit(1);
+		}
+		else
+		{
+			m_deviceContext->RSSetViewports(NumViewports, pViewports);
+		}
+	}
+
 	void destroy();
+
 	void PSSetShaderResources(unsigned int StartSlot, unsigned int NumViews,
 		ID3D11ShaderResourceView* const* ppShaderResourceViews);
 

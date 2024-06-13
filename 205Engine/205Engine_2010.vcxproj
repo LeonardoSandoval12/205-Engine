@@ -431,6 +431,7 @@
     <ClCompile Include="Source\RenderTargetView.cpp" />
     <ClCompile Include="Source\SwapChain.cpp" />
     <ClCompile Include="Source\Textrure.cpp" />
+    <ClCompile Include="Source\Viewport.cpp" />
     <ClCompile Include="Source\window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -446,6 +447,7 @@
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\SwapChain.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Viewport.h" />
     <ClInclude Include="include\window.h" />
     <CLInclude Include="resource.h" />
     <ResourceCompile Include="205Engine.rc" />

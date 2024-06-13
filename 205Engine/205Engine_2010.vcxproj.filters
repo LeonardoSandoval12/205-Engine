@@ -45,6 +45,9 @@
     <ClCompile Include="Source\RenderTargetView.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Viewport.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="205Engine.fx">
@@ -86,6 +89,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="include\RenderTargetView.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Viewport.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
