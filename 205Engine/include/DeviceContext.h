@@ -1,6 +1,14 @@
 #pragma once
 #include "PreRequisites.h"
 
+
+
+//La función RSSetViewports() se encarga de configurar los viewports en el contexto del dispositivo, y verifica si el puntero pViewports es nulo antes de usarlo para evitar errores. 
+// Los otros métodos (init(), update(), render(), destroy() y PSSetShaderResources()) son funciones genéricas relacionadas con la manipulación del contexto del dispositivo.
+// Siendo destroy utilizado para limpiar la memoria
+//Además, la clase contiene un puntero público m_deviceContext que apunta a un objeto del tipo ID3D11DeviceContext, que probablemente es proporcionado por la API de Direct3D.
+
+
 class 
 DeviceContext {
 public:

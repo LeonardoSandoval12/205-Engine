@@ -1,7 +1,12 @@
 #pragma once
 #include "PreRequisites.h"
 
-//<>
+//<El primer método init permite crear texturas a partir de archivos de imagen.
+//La sobrecarga del método init permite especificar dimensiones y formatos para la creación de texturas.
+//El método update está definido pero actualmente no tiene implementación.
+//El método render permite renderizar la textura utilizando un contexto de dispositivo.
+//El método destroy es crucial para liberar los recursos asociados a la textura. 
+
 class Device;
 class DeviceContext;
 

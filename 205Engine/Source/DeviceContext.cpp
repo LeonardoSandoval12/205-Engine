@@ -1,5 +1,11 @@
 #include "DeviceContext.h"
 
+
+/// <summary>
+///  incluye dos métodos de la clase DeviceContext: destroy, que libera el contexto del dispositivo, y PSSetShaderResources, }
+/// que establece las vistas de recursos de shader en el contexto del dispositivo y maneja la verificación de errores si los recursos de shader son nulos.
+/// </summary>
+
 void
 DeviceContext::destroy() {
 	SAFE_RELEASE(m_deviceContext)

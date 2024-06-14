@@ -1,5 +1,13 @@
 #include "Window.h"
 
+/// <summary>
+/// l código define la implementación de la clase Window, que incluye métodos para inicializar (init),
+///  actualizar (update), renderizar (render) y destruir (destroy) una ventana en una aplicación Windows. 
+/// El método init se encarga de registrar la clase de ventana, crear la ventana y ajustarla a las dimensiones especificadas, 
+/// además de mostrarla en pantalla. Los métodos update, render y destroy están definidos pero aún no tienen implementación, 
+/// dejando espacio para añadir la lógica de actualización, renderización y destrucción de recursos.
+
+
 HRESULT Window::init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc)
 {
     m_hInst = hInstance;

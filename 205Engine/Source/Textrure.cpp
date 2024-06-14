@@ -2,6 +2,12 @@
 #include "Device.h"
 #include"DeviceContext.h"
 
+//Proporciona métodos para cargar texturas desde archivos, 
+//crear texturas con dimensiones específicas, renderizar texturas en el pipeline gráfico y liberar los recursos de las texturas cuando ya no son necesarios. 
+//Cada método está diseñado para manejar errores potenciales y garantizar que las operaciones relacionadas 
+//con la textura se realicen de manera segura y eficiente dentro de una aplicación gráfica.
+
+
 HRESULT Texture::init(Device device, std::string TextureName)
 {
 	HRESULT hr = S_OK;
