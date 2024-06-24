@@ -11,6 +11,19 @@ DeviceContext::destroy() {
 	SAFE_RELEASE(m_deviceContext)
 }
 
+void DeviceContext::IASetInputLayout(ID3D11InputLayout* pInputLayout)
+{
+	if (pInputLayout == nullptr)
+	{
+		ERROR("DeviceContext", "IASetLayout", "CHECK FOR ID3D11InputLayout* pInputLayout")
+			exit(1);
+	}
+	else
+	{
+		m_deviceContext->IASetInputLayout(pInputLayout);
+	}
+}
+
 void DeviceContext::PSSetShaderResources(unsigned int StartSlot, unsigned int NumViews, ID3D11ShaderResourceView* const* ppShaderResourceViews)
 {
 	if (ppShaderResourceViews == nullptr)

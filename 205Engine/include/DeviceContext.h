@@ -37,6 +37,8 @@ public:
 
 	void destroy();
 
+	void IASetInputLayout(ID3D11InputLayout* pInputLayout);
+
 	void PSSetShaderResources(unsigned int StartSlot, unsigned int NumViews,
 		ID3D11ShaderResourceView* const* ppShaderResourceViews);
 

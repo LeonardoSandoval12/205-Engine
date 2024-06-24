@@ -1,5 +1,5 @@
 #include "Device.h"
-#include "../PreRequisites.h"
+
 
 
 void Device::init()
