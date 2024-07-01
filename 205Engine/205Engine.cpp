@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+﻿//--------------------------------------------------------------------------------------
 // File: 205Engine.cpp
 //
 // This application demonstrates texturing
@@ -15,7 +15,7 @@
 #include "DepthStencilView.h"
 #include "RenderTargetView.h"
 #include "Viewport.h"
-
+#include "Buffer.h"
 #include "ShaderProgram.h"
 
 
@@ -43,7 +43,13 @@ RenderTargetView                    g_renderTargetView;
 Viewport                            g_viewport;
 //InputLayout                         g_inputLayout;
 ShaderProgram                       g_shaderProgram;
+Buffer									g_vertexBuffer;
+Buffer									g_indexBuffer;
+Buffer									g_CBBufferNeverChanges;
+Buffer									g_CBBufferChangeOnResize;
+Buffer									g_CBBufferChangesEveryFrame;
 
+Mesh									g_mesh;
 
 //ID3D11RenderTargetView*             g_pRenderTargetView = NULL;
 //ID3D11Texture2D*                    g_pDepthStencil = NULL;
@@ -406,28 +412,30 @@ HRESULT InitDevice()
         { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
     };
 
-    D3D11_BUFFER_DESC bd;
-    ZeroMemory( &bd, sizeof(bd) );
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof( SimpleVertex ) * 24;
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bd.CPUAccessFlags = 0;
-    D3D11_SUBRESOURCE_DATA InitData;
-    ZeroMemory( &InitData, sizeof(InitData) );
-    InitData.pSysMem = vertices;
-    //hr = g_device.m_device->CreateBuffer(&bd, &InitData, &g_pVertexBuffer );
-    hr = g_device.CreateBuffer(&bd, &InitData, &g_pVertexBuffer);
-    if( FAILED( hr ) )
-        return hr;
+    g_mesh.name = "Cube";
 
     // Set vertex buffer
-    UINT stride = sizeof( SimpleVertex );
-    UINT offset = 0;
-    g_deviceContext.m_deviceContext->IASetVertexBuffers( 0, 1, &g_pVertexBuffer, &stride, &offset );
+    for (const SimpleVertex& vertex : vertices)
+    {
+        g_mesh.vertex.push_back(vertex);
+    }
 
-    // Create index buffer
+    //// NOTA: El static_cast<unsigned int
+    //se está utilizando aquí para convertir el resultado del método size() 
+    //    de un std::vector a un tipo unsigned int.
+    //    El método size() devuelve un valor del tipo std::size_t, 
+    //    que es un tipo específico de tamaño no negativo.En algunas 
+    //    plataformas, std : size_t puede ser de un tamaño diferente a unsigned int. /
+
+    g_mesh.numVertex = static_cast<unsigned int>(g_mesh.vertex.size());
+
+
     // Create vertex buffer
-    WORD indices[] =
+    g_vertexBuffer.init(g_device, g_mesh, D3D11_BIND_VERTEX_BUFFER);
+
+    
+    // Create index buffer
+    unsigned int indices[] =
     {
         3,1,0,
         2,1,3,
@@ -448,43 +456,20 @@ HRESULT InitDevice()
         23,20,22
     };
 
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof( WORD ) * 36;
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    bd.CPUAccessFlags = 0;
-    InitData.pSysMem = indices;
-    //hr = g_device.m_device->CreateBuffer( &bd, &InitData, &g_pIndexBuffer );
-    hr = g_device.CreateBuffer(&bd, &InitData, &g_pIndexBuffer);
-    if( FAILED( hr ) )
-        return hr;
+    for (unsigned int index : indices) {
+        g_mesh.index.push_back(index);
+    }
+    g_mesh.numIndex = static_cast<unsigned int>(g_mesh.index.size());
 
     // Set index buffer
-    g_deviceContext.m_deviceContext->IASetIndexBuffer( g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0 );
+    g_indexBuffer.init(g_device, g_mesh, D3D11_BIND_INDEX_BUFFER);
 
-    // Set primitive topology
-    g_deviceContext.m_deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+    // Inicialización de Constant Buffers
+    g_CBBufferNeverChanges.init(g_device, sizeof(CBNeverChanges));
 
-    // Create the constant buffers
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(CBNeverChanges);
-    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    bd.CPUAccessFlags = 0;
-    //hr = g_device.m_device->CreateBuffer( &bd, NULL, &g_pCBNeverChanges );
-    hr = g_device.CreateBuffer(&bd, nullptr, &g_pCBNeverChanges);
-    if( FAILED( hr ) )
-        return hr;
-    
-    bd.ByteWidth = sizeof(CBChangeOnResize);
-    //hr = g_device.m_device->CreateBuffer( &bd, NULL, &g_pCBChangeOnResize );
-    hr = g_device.CreateBuffer(&bd, nullptr, &g_pCBChangeOnResize);
-    if( FAILED( hr ) )
-        return hr;
-    
-    bd.ByteWidth = sizeof(CBChangesEveryFrame);
-    //hr = g_device.m_device->CreateBuffer( &bd, NULL, &g_pCBChangesEveryFrame );
-    hr = g_device.CreateBuffer(&bd, nullptr, &g_pCBChangesEveryFrame);
-    if( FAILED( hr ) )
-        return hr;
+    g_CBBufferChangeOnResize.init(g_device, sizeof(CBChangeOnResize));
+
+    g_CBBufferChangesEveryFrame.init(g_device, sizeof(CBChangesEveryFrame));
 
     // Load the Texture
     hr = D3DX11CreateShaderResourceViewFromFile( g_device.m_device, "seafloor.dds", NULL, NULL, &g_pTextureRV, NULL );
@@ -515,16 +500,15 @@ HRESULT InitDevice()
     XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
     g_View = XMMatrixLookAtLH( Eye, At, Up );
 
-    CBNeverChanges cbNeverChanges;
-    cbNeverChanges.mView = XMMatrixTranspose( g_View );
-    g_deviceContext.m_deviceContext->UpdateSubresource( g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0 );
+    cbNeverChanges.mView = XMMatrixTranspose(g_View);
+
 
     // Initialize the projection matrix
-    g_Projection = XMMatrixPerspectiveFovLH( XM_PIDIV4, g_window.m_width / (FLOAT)g_window.m_height, 0.01f, 100.0f );
-    
+    g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, g_window.m_width / (FLOAT)g_window.m_height, 0.01f, 100.0f);
+
     CBChangeOnResize cbChangesOnResize;
-    cbChangesOnResize.mProjection = XMMatrixTranspose( g_Projection );
-    g_deviceContext.m_deviceContext->UpdateSubresource( g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0 );
+    cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
+    g_CBBufferChangeOnResize.update(g_deviceContext, 0, nullptr, &cbChangesOnResize, 0, 0);
 
     return S_OK;
 }
@@ -544,25 +528,18 @@ void CleanupDevice()
     if( g_pCBChangesEveryFrame ) g_pCBChangesEveryFrame->Release();
     if( g_pVertexBuffer ) g_pVertexBuffer->Release();
     if( g_pIndexBuffer ) g_pIndexBuffer->Release();
-    //if( g_pVertexLayout ) g_pVertexLayout->Release();
-    //if( g_pVertexShader ) g_pVertexShader->Release();
-    //if( g_pPixelShader ) g_pPixelShader->Release();
-    //if( g_pDepthStencil ) g_pDepthStencil->Release();
-    //if( g_pDepthStencilView ) g_pDepthStencilView->Release();
+
     g_shaderProgram.destroy();
-
-
     g_DepthStencilView.destroy();
-    //if( g_pRenderTargetView ) g_pRenderTargetView->Release();
     g_renderTargetView.destroy();
-    //if( g_pSwapChain ) g_pSwapChain->Release();
-    //if( g_deviceContext.m_deviceContext ) g_deviceContext.m_deviceContext->Release();
     g_deviceContext.destroy();
     g_swapchain.destroy();
-   // g_inputLayout.destroy();
-    
-    //if( g_device.m_device ) g_device.m_device->Release();
     g_device.destroy();
+    g_CBBufferNeverChanges.destroy();
+    g_CBBufferChangeOnResize.destroy();
+    g_CBBufferChangesEveryFrame.destroy();
+    g_vertexBuffer.destroy();
+    g_indexBuffer.destroy();
 }
 
 
@@ -598,71 +575,36 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 //--------------------------------------------------------------------------------------
 void Render()
 {
-    // Update our time
-    static float t = 0.0f;
-    if(g_swapchain.m_driverType == D3D_DRIVER_TYPE_REFERENCE )
-    {
-        t += ( float )XM_PI * 0.0125f;
-    }
-    else
-    {
-        static DWORD dwTimeStart = 0;
-        DWORD dwTimeCur = GetTickCount();
-        if( dwTimeStart == 0 )
-            dwTimeStart = dwTimeCur;
-        t = ( dwTimeCur - dwTimeStart ) / 1000.0f;
-    }
-
-    // Rotate cube around the origin
-    g_World = XMMatrixRotationY( t );
-
-    // Modify the color
-    g_vMeshColor.x = ( sinf( t * 1.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.y = ( cosf( t * 3.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.z = ( sinf( t * 5.0f ) + 1.0f ) * 0.5f;
-
-    //
     // Clear the back buffer
-    //
+
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
     g_renderTargetView.render(g_deviceContext, g_DepthStencilView, 1, ClearColor);
 
-    //Set viewport
-
     g_viewport.render(g_deviceContext);
-
     //
     // Clear the depth buffer to 1.0 (max depth)
     //
-    //g_deviceContext.m_deviceContext->ClearDepthStencilView(&g_DepthStencilView.m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    //g_deviceContext.m_deviceContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
     g_DepthStencilView.render(g_deviceContext);
-
-    //
-    // Update variables that change once per frame
-    //
-    CBChangesEveryFrame cb;
-    cb.mWorld = XMMatrixTranspose( g_World );
-    cb.vMeshColor = g_vMeshColor;
-    g_deviceContext.m_deviceContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 );
-
-    //
     // Render the cube
     //
-    //g_inputLayout.render(g_deviceContext);
-   // g_deviceContext.m_deviceContext->VSSetShader( g_pVertexShader, NULL, 0 );
     g_shaderProgram.render(g_deviceContext);
-    g_deviceContext.m_deviceContext->VSSetConstantBuffers( 0, 1, &g_pCBNeverChanges );
-    g_deviceContext.m_deviceContext->VSSetConstantBuffers( 1, 1, &g_pCBChangeOnResize );
-    g_deviceContext.m_deviceContext->VSSetConstantBuffers( 2, 1, &g_pCBChangesEveryFrame );
-    //g_deviceContext.m_deviceContext->PSSetShader( g_pPixelShader, NULL, 0 );
-    g_deviceContext.m_deviceContext->PSSetConstantBuffers( 2, 1, &g_pCBChangesEveryFrame );
-    g_deviceContext.m_deviceContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
-    g_deviceContext.m_deviceContext->PSSetSamplers( 0, 1, &g_pSamplerLinear );
-    g_deviceContext.m_deviceContext->DrawIndexed( 36, 0, 0 );
+    g_vertexBuffer.render(g_deviceContext, 0, 1);
+    g_indexBuffer.render(g_deviceContext, DXGI_FORMAT_R32_UINT);
+    g_CBBufferNeverChanges.render(g_deviceContext, 0, 1); // Slot 0
+    g_CBBufferChangeOnResize.render(g_deviceContext, 1, 1); // Slot 1
+    g_CBBufferChangesEveryFrame.renderModel(g_deviceContext, 2, 1); // Slot 2
+    g_modelTexture.render(g_deviceContext, 0, 1);
+    //g_deviceContext.m_deviceContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
+    g_sampler.render(g_deviceContext, 0, 1);
+    //Set primitve topology
+    g_deviceContext.m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    g_deviceContext.m_deviceContext->DrawIndexed(g_mesh.numIndex, 0, 0);
 
     //
     // Present our back buffer to our front buffer
     //
-    //g_pSwapChain->Present( 0, 0 );
+    //g_pSwapChain->Present(0, 0);
     g_swapchain.present();
 }
