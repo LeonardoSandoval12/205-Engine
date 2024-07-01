@@ -34,6 +34,7 @@ public:
 
 	void PSSetShader(ID3D11PixelShader* pPixelShader,
 		ID3D11ClassInstance* const* ppClassInstances, unsigned int NumClassInstances);
+
 	void UpdateSubresource(ID3D11Resource* pDstResource,
 		unsigned int DstSubresource,
 		const D3D11_BOX* pDstBox, const void* pSrcData,
