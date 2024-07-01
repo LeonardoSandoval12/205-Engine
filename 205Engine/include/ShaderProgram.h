@@ -24,7 +24,7 @@ public:
 
 	void CreateInputLayout(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout);
 
-	void CreateShader(Device device, void* shaderClass);
+	void CreateShader(Device device, ShaderType type);
 
 public:
 	ID3D11VertexShader* m_VertexShader = nullptr;
