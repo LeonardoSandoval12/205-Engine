@@ -424,12 +424,14 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="205Engine.cpp" />
+    <ClCompile Include="include\Buffer.cpp" />
     <ClCompile Include="include\InputLayout.cpp" />
     <ClCompile Include="Source\BaseApp.cpp" />
     <ClCompile Include="Source\DepthStencilView.cpp" />
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\DeviceContext.cpp" />
     <ClCompile Include="Source\RenderTargetView.cpp" />
+    <ClCompile Include="Source\SamplerState.cpp" />
     <ClCompile Include="Source\ShaderProgram.cpp" />
     <ClCompile Include="Source\SwapChain.cpp" />
     <ClCompile Include="Source\Textrure.cpp" />
@@ -441,6 +443,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\Buffer.h" />
     <ClInclude Include="include\DepthStencilView.h" />
     <ClInclude Include="include\Device.h" />
     <ClInclude Include="include\DeviceContext.h" />
@@ -448,6 +451,7 @@
     <ClInclude Include="include\PreRequisites.h" />
     <ClInclude Include="include\RenderTargetView.h" />
     <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="include\SamplerState.h" />
     <ClInclude Include="include\ShaderProgram.h" />
     <ClInclude Include="include\SwapChain.h" />
     <ClInclude Include="include\Texture.h" />
