@@ -20,7 +20,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="205Engine.cpp" />
     <ClCompile Include="Source\Device.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -48,16 +47,22 @@
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="include\InputLayout.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ShaderProgram.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="include\Buffer.cpp">
+    <ClCompile Include="Source\SamplerState.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SamplerState.cpp">
+    <ClCompile Include="205Engine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputLayout.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ModelLoader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,6 +121,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="include\SamplerState.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ModelLoader.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

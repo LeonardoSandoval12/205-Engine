@@ -18,6 +18,8 @@
 #include "Buffer.h"
 #include "ShaderProgram.h"
 #include "SamplerState.h"
+//#include "fbxsdk.h"
+#include "ModelLoader.h"    
 
 
 
@@ -44,15 +46,20 @@ RenderTargetView                    g_renderTargetView;
 Viewport                            g_viewport;
 //InputLayout                         g_inputLayout;
 ShaderProgram                       g_shaderProgram;
-Buffer									g_vertexBuffer;
-Buffer									g_indexBuffer;
-Buffer									g_CBBufferNeverChanges;
-Buffer									g_CBBufferChangeOnResize;
-Buffer									g_CBBufferChangesEveryFrame;
-Texture                                 g_modelTexture;
-SamplerState							g_sampler;
 
-Mesh									g_mesh;
+std::vector<Buffer>                 g_vertexBuffers;            
+std::vector<Buffer>                 g_indexBuffers;
+std::vector<Texture>                modelTextures;
+
+Buffer								g_CBBufferNeverChanges;
+Buffer								g_CBBufferChangeOnResize;
+Buffer							    g_CBBufferChangesEveryFrame;
+
+Texture                             g_default;
+SamplerState						g_sampler;
+ModelLoader                         g_model;
+
+Mesh								g_mesh;
 
 XMMATRIX                            g_World;
 XMMATRIX                            g_View;
@@ -359,170 +366,78 @@ HRESULT InitDevice()
 
     g_shaderProgram.init(g_device, "205Engine.fx", Layout);
 
-    /*D3D11_INPUT_ELEMENT_DESC layout[] =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-    };
-    UINT numElements = ARRAYSIZE( layout );*/
 
-    // Create the input layout
-    //hr = g_device.m_device->CreateInputLayout( layout, numElements, pVSBlob->GetBufferPointer(),
-                                        //  pVSBlob->GetBufferSize(), &g_pVertexLayout );
-    //hr = g_device.CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-       // pVSBlob->GetBufferSize(), &g_pVertexLayout);
-
-    //g_inputLayout.init(g_device, Layout, pVSBlob);
-    //pVSBlob->Release();
-    ////if( FAILED( hr ) )
-    //  //  return hr;
-
-    //// Set the input layout
-    ////g_deviceContext.m_deviceContext->IASetInputLayout( g_pVertexLayout );
-
-    //// Compile the pixel shader
-    //ID3DBlob* pPSBlob = NULL;
-    //hr = CompileShaderFromFile( "205Engine.fx", "PS", "ps_4_0", &pPSBlob );
-    //if( FAILED( hr ) )
-    //{
-    //    MessageBox( NULL,
-    //                "The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", "Error", MB_OK );
-    //    return hr;
-    //}
-
-    //// Create the pixel shader
-    ////hr = g_device.m_device->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader );
-    ////pPSBlob->Release();
-    //hr = g_device.CreatePixelShader(pPSBlob->GetBufferPointer(),
-    //                                pPSBlob->GetBufferSize(), 
-    //                                NULL, &g_pPixelShader);
-
-    //pPSBlob->Release();
-    //if( FAILED( hr ) )
-    //    return hr;
+    g_model.LoadModel("Models/Vela2.fbx");
 
     // Create vertex buffer
-    SimpleVertex vertices[] =
-    {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        for (auto& mesh : g_model.meshes)
+        {
+            Buffer vertexBuffer;
+            vertexBuffer.init(g_device, mesh, D3D11_BIND_VERTEX_BUFFER);
+            g_vertexBuffers.push_back(vertexBuffer);
 
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+            // // Create index buffer
+            Buffer indexBuffer;
+            indexBuffer.init(g_device, mesh, D3D11_BIND_INDEX_BUFFER);
+            g_indexBuffers.push_back(indexBuffer);
+        }
 
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        // Inicialización de Constant Buffers
+        g_CBBufferNeverChanges.init(g_device, sizeof(CBNeverChanges));
 
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        g_CBBufferChangeOnResize.init(g_device, sizeof(CBChangeOnResize));
 
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        g_CBBufferChangesEveryFrame.init(g_device, sizeof(CBChangesEveryFrame));
 
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
-    };
+        //Create SamplerState
+        g_sampler.init(g_device);
 
-    g_mesh.name = "Cube";
+        // Initialize the world matrices
+        g_World = XMMatrixIdentity();
 
-    // Set vertex buffer
-    for (const SimpleVertex& vertex : vertices)
-    {
-        g_mesh.vertex.push_back(vertex);
-    }
+        Texture Vela_Char_BaseColor;
+        Vela_Char_BaseColor.init(g_device, "Textures/Vela/Vela_Char_BaseColor.png", ExtensionType::PNG);
 
-    //// NOTA: El static_cast<unsigned int
-    //se está utilizando aquí para convertir el resultado del método size() 
-    //    de un std::vector a un tipo unsigned int.
-    //    El método size() devuelve un valor del tipo std::size_t, 
-    //    que es un tipo específico de tamaño no negativo.En algunas 
-    //    plataformas, std : size_t puede ser de un tamaño diferente a unsigned int. /
+        Texture Vela_Corneas_BaseColor;
+        Vela_Corneas_BaseColor.init(g_device, "Textures/Vela/Vela_Corneas_BaseColor.png", ExtensionType::PNG);
 
-    g_mesh.numVertex = static_cast<unsigned int>(g_mesh.vertex.size());
+        Texture Vela_Gun_BaseColor;
+        Vela_Gun_BaseColor.init(g_device, "Textures/Vela/Vela_Gun_BaseColor.png", ExtensionType::PNG);
 
+        Texture Vela_Legs_BaseColor;
+        Vela_Legs_BaseColor.init(g_device, "Textures/Vela/Vela_Legs_BaseColor.png", ExtensionType::PNG);
 
-    // Create vertex buffer
-    g_vertexBuffer.init(g_device, g_mesh, D3D11_BIND_VERTEX_BUFFER);
+        Texture Vela_Mechanical_BaseColor;
+        Vela_Mechanical_BaseColor.init(g_device, "Textures/Vela/Vela_Mechanical_BaseColor.png", ExtensionType::PNG);
 
-    
-    // Create index buffer
-    unsigned int indices[] =
-    {
-        3,1,0,
-        2,1,3,
+        Texture Vela_Plate_BaseColor;
+        Vela_Plate_BaseColor.init(g_device, "Textures/Vela/Vela_Plate_BaseColor.png", ExtensionType::PNG);
 
-        6,4,5,
-        7,4,6,
+        Texture Vela_Visor_BaseColor;
+        Vela_Visor_BaseColor.init(g_device, "Textures/Vela/Vela_Visor_BaseColor.png", ExtensionType::PNG);
 
-        11,9,8,
-        10,9,11,
+        modelTextures.push_back(Vela_Corneas_BaseColor);
+        modelTextures.push_back(Vela_Gun_BaseColor);
+        modelTextures.push_back(Vela_Visor_BaseColor);
+        modelTextures.push_back(Vela_Legs_BaseColor);
+        modelTextures.push_back(Vela_Mechanical_BaseColor);
+        modelTextures.push_back(Vela_Char_BaseColor);
+        modelTextures.push_back(Vela_Plate_BaseColor);
 
-        14,12,13,
-        15,12,14,
+        // Initialize the view matrix
+        XMVECTOR Eye = XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
+        XMVECTOR At = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+        XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+        g_View = XMMatrixLookAtLH(Eye, At, Up);
 
-        19,17,16,
-        18,17,19,
-
-        22,20,21,
-        23,20,22
-    };
-
-    for (unsigned int index : indices) {
-        g_mesh.index.push_back(index);
-    }
-    g_mesh.numIndex = static_cast<unsigned int>(g_mesh.index.size());
-
-    // Set index buffer
-    g_indexBuffer.init(g_device, g_mesh, D3D11_BIND_INDEX_BUFFER);
-
-    // Inicialización de Constant Buffers
-    g_CBBufferNeverChanges.init(g_device, sizeof(CBNeverChanges));
-
-    g_CBBufferChangeOnResize.init(g_device, sizeof(CBChangeOnResize));
-
-    g_CBBufferChangesEveryFrame.init(g_device, sizeof(CBChangesEveryFrame));
-
-    // Load the Texture
-    
-    g_modelTexture.init(g_device, "seafloor.dds");
-    
-    // Create the sample state
-    g_sampler.init(g_device);
-
-   
-
-    // Initialize the world matrices
-    g_World = XMMatrixIdentity();
-
-    // Initialize the view matrix
-    XMVECTOR Eye = XMVectorSet( 0.0f, 3.0f, -6.0f, 0.0f );
-    XMVECTOR At = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    XMVECTOR Up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-    g_View = XMMatrixLookAtLH( Eye, At, Up );
-
-    cbNeverChanges.mView = XMMatrixTranspose(g_View);
+        cbNeverChanges.mView = XMMatrixTranspose(g_View);
 
 
-    // Initialize the projection matrix
-    g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, g_window.m_width / (FLOAT)g_window.m_height, 0.01f, 100.0f);
+        // Initialize the projection matrix
+        g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, g_window.m_width / (FLOAT)g_window.m_height, 0.01f, 100.0f);
 
-    CBChangeOnResize cbChangesOnResize;
-    cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
-    g_CBBufferChangeOnResize.update(g_deviceContext, 0, nullptr, &cbChangesOnResize, 0, 0);
-
-    return S_OK;
+        cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
+        return S_OK;
 }
 
 
@@ -540,19 +455,30 @@ void CleanupDevice()
     if( g_pCBChangesEveryFrame ) g_pCBChangesEveryFrame->Release();
     if( g_pVertexBuffer ) g_pVertexBuffer->Release();
     if( g_pIndexBuffer ) g_pIndexBuffer->Release();
+   
     g_sampler.destroy();
+    for (auto& tex : modelTextures)
+    {
+        tex.destroy();
+    }
+    g_default.destroy();
+
+
     g_shaderProgram.destroy();
+
+    g_DepthStencil.destroy();
     g_DepthStencilView.destroy();
+
     g_renderTargetView.destroy();
+
     g_deviceContext.destroy();
     g_swapchain.destroy();
     g_device.destroy();
+
     g_CBBufferNeverChanges.destroy();
     g_CBBufferChangeOnResize.destroy();
     g_CBBufferChangesEveryFrame.destroy();
-    g_vertexBuffer.destroy();
-    g_indexBuffer.destroy();
-    g_modelTexture.destroy();
+
 }
 
 
@@ -619,13 +545,28 @@ void Render()
     // Render the cube
     //
     g_shaderProgram.render(g_deviceContext);
-    g_vertexBuffer.render(g_deviceContext, 0, 1);
-    g_indexBuffer.render(g_deviceContext, DXGI_FORMAT_R32_UINT);
+    for (size_t i = 0; i < g_model.meshes.size(); i++)
+    {
+        g_vertexBuffers[i].render(g_deviceContext, 0, 1);
+        g_indexBuffers[i].render(g_deviceContext, DXGI_FORMAT_R32_UINT);
+        if (i <= modelTextures.size() - 1)
+        {
+            modelTextures[i].render(g_deviceContext, 0, 1);
+        }
+        else
+        {
+            g_default.render(g_deviceContext, 0, 1);
+        }
+    }
+
+    g_default.render(g_deviceContext, 0, 1);
+    
+    
     g_CBBufferNeverChanges.render(g_deviceContext, 0, 1); // Slot 0
     g_CBBufferChangeOnResize.render(g_deviceContext, 1, 1); // Slot 1
     g_CBBufferChangesEveryFrame.renderModel(g_deviceContext, 2, 1); // Slot 2
-    g_modelTexture.render(g_deviceContext, 0, 1);
-    //g_deviceContext.m_deviceContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
+    
+    
     g_sampler.render(g_deviceContext, 0, 1);
     //Set primitve topology
     g_deviceContext.m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -635,6 +576,6 @@ void Render()
     //
     // Present our back buffer to our front buffer
     //
-    //g_pSwapChain->Present(0, 0);
+    
     g_swapchain.present();
 }
