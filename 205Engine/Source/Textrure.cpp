@@ -1,8 +1,9 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include "Texture.h"
 #include "Device.h"
 #include "DeviceContext.h"
-//#include "stb_image.h"
+
 
 HRESULT Texture::init(Device device, std::string textureName, ExtensionType extensionType)
 {
@@ -65,7 +66,7 @@ HRESULT Texture::init(Device device, std::string textureName, ExtensionType exte
 		stbi_image_free(data);
 		break;
 	}
-	return hr;
+	
 
 }
 

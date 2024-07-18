@@ -65,7 +65,7 @@ bool ModelLoader::LoadModel(const std::string& filePath)
         }
     }
 
-    // Obtener y procesar los materiales de la escena
+    //  procesar los materiales
     int materialCount = lScene->GetMaterialCount();
     for (int i = 0; i < materialCount; ++i)
     {

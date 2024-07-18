@@ -2,6 +2,9 @@
 #include "Device.h"
 #include "DeviceContext.h"
 
+//función init configura los shaders  
+// asegurándose de que la entrada sea válida antes de proceder a crear y configurar los shaders.
+
 void ShaderProgram::init(Device device, std::string fileName, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout)
 {
 	if (device.m_device == nullptr)
