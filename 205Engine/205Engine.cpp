@@ -19,7 +19,8 @@
 #include "ShaderProgram.h"
 #include "SamplerState.h"
 //#include "fbxsdk.h"
-#include "ModelLoader.h"    
+#include "ModelLoader.h" 
+#include "UserInterface.h"
 
 
 
@@ -46,6 +47,7 @@ RenderTargetView                    g_renderTargetView;
 Viewport                            g_viewport;
 //InputLayout                         g_inputLayout;
 ShaderProgram                       g_shaderProgram;
+UserInterface                       g_UserInterface;
 
 std::vector<Buffer>                 g_vertexBuffers;
 std::vector<Buffer>                 g_indexBuffers;
@@ -434,9 +436,15 @@ HRESULT InitDevice()
 
 
 	// Initialize the projection matrix
+
 	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, g_window.m_width / (FLOAT)g_window.m_height, 0.01f, 100.0f);
 
 	cbChangesOnResize.mProjection = XMMatrixTranspose(g_Projection);
+
+	//initialize Classes
+	g_UserInterface.init(g_window.m_hWnd, g_device.m_device, g_deviceContext.m_deviceContext);
+
+
 	return S_OK;
 }
 
@@ -475,6 +483,7 @@ void CleanupDevice()
 	g_deviceContext.destroy();
 	g_swapchain.destroy();
 	g_device.destroy();
+	g_UserInterface.destroy();
 
 	g_CBBufferNeverChanges.destroy();
 	g_CBBufferChangeOnResize.destroy();
@@ -486,8 +495,13 @@ void CleanupDevice()
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
 	PAINTSTRUCT ps;
 	HDC hdc;
 
@@ -512,6 +526,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //Update everyframe
 void Update(float DeltaTime)
 {
+	g_UserInterface.update();
+	bool show_demo_window = true;
+	ImGui::ShowDemoWindow(&show_demo_window);
+
+	//ImGui::Begin("Test");
+
+	//ImGui::End();
+	
 	// Rotate cube around the origin
 	XMVECTOR translation = XMVectorSet(0.0f, -2.0f, 0.0f, 0.0f); // Traslación en x=1, y=2, z=3
 	XMVECTOR rotation = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(260), XMConvertToRadians(DeltaTime * 50), 0.0f); // Rotación en X=180, Y=180, Z=0
@@ -599,6 +621,6 @@ void Render()
 	//
 	// Present our back buffer to our front buffer
 	//
-
+	g_UserInterface.render();
 	g_swapchain.present();
 }

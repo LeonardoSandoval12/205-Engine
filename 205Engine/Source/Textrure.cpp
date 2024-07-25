@@ -32,7 +32,7 @@ HRESULT Texture::init(Device device, std::string textureName, ExtensionType exte
 				return E_FAIL;
 		}
 
-		//Descripcion de la Textura
+		
 		D3D11_TEXTURE2D_DESC texturesDesc = {};
 		texturesDesc.Width = width;
 		texturesDesc.Height = height;
@@ -43,7 +43,7 @@ HRESULT Texture::init(Device device, std::string textureName, ExtensionType exte
 		texturesDesc.Usage = D3D11_USAGE_DEFAULT;
 		texturesDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-		//Datos de la sobrecarga
+	
 		D3D11_SUBRESOURCE_DATA initData = {};
 		initData.pSysMem = data;
 		initData.SysMemPitch = width * 4;

@@ -161,7 +161,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;_DEBUG;DEBUG;PROFILE;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -205,7 +205,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;_DEBUG;DEBUG;PROFILE;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -250,7 +250,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;NDEBUG;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -295,7 +295,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;NDEBUG;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -341,7 +341,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;NDEBUG;PROFILE;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -386,7 +386,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./include/;DXUT\Core;DXUT\Optional;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking;C:\Users\MODBE\OneDrive\Documentos\GitHub\205-Engine\205Engine\imgui-docking\imgui-docking\backends;./include/fbx/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;FBXSDK_SHARED;NDEBUG;PROFILE;_WINDOWS;D3DXFX_LARGEADDRESS_HANDLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -424,6 +424,13 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="205Engine.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\imgui.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\imgui_demo.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\imgui_draw.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\imgui_tables.cpp" />
+    <ClCompile Include="imgui-docking\imgui-docking\imgui_widgets.cpp" />
     <ClCompile Include="Source\BaseApp.cpp" />
     <ClCompile Include="Source\Buffer.cpp" />
     <ClCompile Include="Source\DepthStencilView.cpp" />
@@ -436,6 +443,7 @@
     <ClCompile Include="Source\ShaderProgram.cpp" />
     <ClCompile Include="Source\SwapChain.cpp" />
     <ClCompile Include="Source\Textrure.cpp" />
+    <ClCompile Include="Source\UserInterface.cpp" />
     <ClCompile Include="Source\Viewport.cpp" />
     <ClCompile Include="Source\window.cpp" />
   </ItemGroup>
@@ -443,11 +451,23 @@
     <None Include="205Engine.fx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\backends\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imconfig.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imgui.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imgui_internal.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_rectpack.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_textedit.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_truetype.h" />
     <ClInclude Include="include\BaseApp.h" />
     <ClInclude Include="include\Buffer.h" />
     <ClInclude Include="include\DepthStencilView.h" />
     <ClInclude Include="include\Device.h" />
     <ClInclude Include="include\DeviceContext.h" />
+    <ClInclude Include="include\ECS\Actor.h" />
+    <ClInclude Include="include\ECS\Component.h" />
+    <ClInclude Include="include\ECS\Entity.h" />
+    <ClInclude Include="include\ECS\MeshComponent.h" />
     <ClInclude Include="include\InputLayout.h" />
     <ClInclude Include="include\ModelLoader.h" />
     <ClInclude Include="include\PreRequisites.h" />
@@ -458,6 +478,7 @@
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\SwapChain.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\UserInterface.h" />
     <ClInclude Include="include\Viewport.h" />
     <ClInclude Include="include\window.h" />
     <CLInclude Include="resource.h" />
