@@ -424,6 +424,7 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="205Engine.cpp" />
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="imgui-docking\imgui-docking\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui-docking\imgui-docking\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui-docking\imgui-docking\imgui.cpp" />
@@ -443,6 +444,7 @@
     <ClCompile Include="Source\ShaderProgram.cpp" />
     <ClCompile Include="Source\SwapChain.cpp" />
     <ClCompile Include="Source\Textrure.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\UserInterface.cpp" />
     <ClCompile Include="Source\Viewport.cpp" />
     <ClCompile Include="Source\window.cpp" />
@@ -459,16 +461,16 @@
     <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_textedit.h" />
     <ClInclude Include="..\..\..\..\..\Downloads\imgui-docking\imgui-docking\imstb_truetype.h" />
+    <ClInclude Include="include\Actor.h" />
     <ClInclude Include="include\BaseApp.h" />
     <ClInclude Include="include\Buffer.h" />
+    <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\DepthStencilView.h" />
     <ClInclude Include="include\Device.h" />
     <ClInclude Include="include\DeviceContext.h" />
-    <ClInclude Include="include\ECS\Actor.h" />
-    <ClInclude Include="include\ECS\Component.h" />
-    <ClInclude Include="include\ECS\Entity.h" />
-    <ClInclude Include="include\ECS\MeshComponent.h" />
+    <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\InputLayout.h" />
+    <ClInclude Include="include\MeshComponent.h" />
     <ClInclude Include="include\ModelLoader.h" />
     <ClInclude Include="include\PreRequisites.h" />
     <ClInclude Include="include\RenderTargetView.h" />
@@ -478,7 +480,24 @@
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\SwapChain.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Transform.h" />
     <ClInclude Include="include\UserInterface.h" />
+    <ClInclude Include="include\Utilities\Matrix\Matrix2x2.h" />
+    <ClInclude Include="include\Utilities\Matrix\Matrix3x3.h" />
+    <ClInclude Include="include\Utilities\Matrix\Matrix4x4.h" />
+    <ClInclude Include="include\Utilities\Memory\TSharedPointer.h" />
+    <ClInclude Include="include\Utilities\Memory\TStaticPtr.h" />
+    <ClInclude Include="include\Utilities\Memory\TUniquePtr.h" />
+    <ClInclude Include="include\Utilities\Memory\TWeakPointer.h" />
+    <ClInclude Include="include\Utilities\Structures\TArray.h" />
+    <ClInclude Include="include\Utilities\Structures\TMap.h" />
+    <ClInclude Include="include\Utilities\Structures\TPair.h" />
+    <ClInclude Include="include\Utilities\Structures\TSet.h" />
+    <ClInclude Include="include\Utilities\Utilities\EngineMath.h" />
+    <ClInclude Include="include\Utilities\Vectors\Quaternion.h" />
+    <ClInclude Include="include\Utilities\Vectors\Vector2.h" />
+    <ClInclude Include="include\Utilities\Vectors\Vector3.h" />
+    <ClInclude Include="include\Utilities\Vectors\Vector4.h" />
     <ClInclude Include="include\Viewport.h" />
     <ClInclude Include="include\window.h" />
     <CLInclude Include="resource.h" />
