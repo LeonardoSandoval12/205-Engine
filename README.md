@@ -37,7 +37,7 @@ bash
 Copiar código
 git clone https://github.com/yourusername/your-repository.git
 Configurar el Entorno:
-Asegúrate de tener instaladas las siguientes herramientas y bibliotecas:
+Asegúrarse de tener instaladas las siguientes herramientas y bibliotecas:
 
 Direct3D 11 SDK
 Autodesk FBX SDK
