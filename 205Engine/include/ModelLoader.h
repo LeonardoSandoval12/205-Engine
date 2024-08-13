@@ -16,10 +16,14 @@ public:
 	std::vector<std::string>
 		GetTextureFileNames()const { return textureFileNames; }
 
-	void ProcessNode(FbxNode* node);
-	void ProcessMesh(FbxNode* node);
+	void 
+	ProcessNode(FbxNode* node);
 
-	void ProcessMaterials(FbxSurfaceMaterial* material);
+	void 
+	ProcessMesh(FbxNode* node);
+
+	void 
+	ProcessMaterials(FbxSurfaceMaterial* material);
 
 private:
 	FbxManager* lSdkManager;

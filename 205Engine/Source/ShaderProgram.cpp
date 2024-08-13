@@ -5,8 +5,9 @@
 //función init configura los shaders  
 // asegurándose de que la entrada sea válida antes de proceder a crear y configurar los shaders.
 
-void ShaderProgram::init(Device device, std::string fileName, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout)
-{
+void 
+ShaderProgram::init(Device device, std::string fileName, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout){
+
 	if (device.m_device == nullptr)
 	{
 		ERROR("ShaderProgram", "init", "CHECK FOR Device Device")
@@ -28,13 +29,14 @@ void ShaderProgram::init(Device device, std::string fileName, std::vector<D3D11_
 
 }
 
-void ShaderProgram::update()
-{
+void
+ShaderProgram::update(){
+
 }
 
 
-void ShaderProgram::render(DeviceContext& deviceContext)
-{
+void
+ShaderProgram::render(DeviceContext& deviceContext){
 	//establecer el InputLayout
 	m_inputLayout.render(deviceContext);
 	// //Establecer los shaders
@@ -42,8 +44,9 @@ void ShaderProgram::render(DeviceContext& deviceContext)
 	deviceContext.PSSetShader(m_PixelShader, nullptr, 0);
 }
 
-void ShaderProgram::destroy()
-{
+void
+ShaderProgram::destroy(){
+
 	SAFE_RELEASE(m_VertexShader);
 	m_inputLayout.destroy();
 	SAFE_RELEASE(m_PixelShader);
@@ -75,14 +78,16 @@ HRESULT ShaderProgram::CompileShaderFromFile(char* szFileName, LPCSTR szEntryPoi
 	return S_OK;
 }
 
-void ShaderProgram::CreateInputLayout(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout)
-{
+void 
+ShaderProgram::CreateInputLayout(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout){
+
 	m_inputLayout.init(device, Layout, m_vertexShaderData);
 	m_vertexShaderData->Release();
 }
 
-void ShaderProgram::CreateShader(Device device, ShaderType type)
-{
+void
+ShaderProgram::CreateShader(Device device, ShaderType type){
+
 	HRESULT hr = S_OK;
 	ID3DBlob* shaderData = nullptr;
 	const char* shaderEntryPoint = (type == PIXEL_SHADER) ? "PS" : "VS";
@@ -94,7 +99,8 @@ void ShaderProgram::CreateShader(Device device, ShaderType type)
 
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, "The FX cannot be compiled.Please Run this Executable from the directory that contains the FX file.", "Error", MB_OK);
+		MessageBox(nullptr, "The FX cannot be compiled.Please Run this Executable from the directory that contains the FX file.", 
+				   "Error", MB_OK);
 		ERROR("ShaderProgram", "CreateShader", "CHECK FOR CompileShaderFromFile()");
 		exit(1);
 	}
@@ -103,11 +109,15 @@ void ShaderProgram::CreateShader(Device device, ShaderType type)
 
 	if (type == PIXEL_SHADER)
 	{
-		hr = device.CreatePixelShader(shaderData->GetBufferPointer(), shaderData->GetBufferSize(), nullptr, &m_PixelShader);
+		hr = device.CreatePixelShader(shaderData->GetBufferPointer(),
+									  shaderData->GetBufferSize(), 
+									  nullptr, &m_PixelShader);
 	}
 	else
 	{
-		hr = device.CreateVertexShader(shaderData->GetBufferPointer(), shaderData->GetBufferSize(), nullptr, &m_VertexShader);
+		hr = device.CreateVertexShader(shaderData->GetBufferPointer(),
+									   shaderData->GetBufferSize(),
+									   nullptr, &m_VertexShader);
 	}
 
 	if (FAILED(hr))

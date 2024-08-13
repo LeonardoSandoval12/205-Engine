@@ -12,22 +12,22 @@ public:
     ~SwapChain() = default;
 
     void
-        init(Device & device,
-            DeviceContext & deviceContext,
-            Texture &backBuffer,
-            Window window);
+    init(Device & device,
+         DeviceContext & deviceContext,
+         Texture &backBuffer,
+         Window window);
 
     void
-        update();
+    update();
 
     void
-        render();
+    render();
 
     void
-        destroy();
+    destroy();
 
     void
-        present();
+    present();
 
 public:
     IDXGISwapChain* m_swapChain = nullptr;

@@ -1,6 +1,6 @@
 #include  "BaseApp.h"
-HRESULT BaseApp::init()
-{
+HRESULT BaseApp::init(){
+
 	HRESULT hr = S_OK;
 	//create Swapchain
 	m_swapchain.init(m_device, m_deviceContext, m_BackBuffer, m_window);
@@ -117,7 +117,7 @@ HRESULT BaseApp::init()
 	if (!AVela.isNull()) {
 		MESSAGE("Actor", "Actor", "Actor accessed successfully.")
 
-			AVela->getComponent<Transform>()->setPosition(EngineUtilities::Vector3(-0.9f, -2.0f, 2.0f));
+		AVela->getComponent<Transform>()->setPosition(EngineUtilities::Vector3(-0.9f, -2.0f, 2.0f));
 		AVela->getComponent<Transform>()->setRotation(EngineUtilities::Vector3(XM_PI / -2.0f, 0.0f, XM_PI / 2.0f));
 		AVela->getComponent<Transform>()->setScale(EngineUtilities::Vector3(.03f, .03f, .03f));
 		AVela->SetMesh(m_device, m_model.meshes);
@@ -153,8 +153,8 @@ HRESULT BaseApp::init()
 	return S_OK;
 }
 
-void BaseApp::update()
-{
+void BaseApp::update(){
+
 	m_UserInterface.update();
 	bool show_demo_window = true;
 
@@ -176,8 +176,8 @@ void BaseApp::update()
 	//AVela->getComponent<Transform>()->setRotation(Vector3f(XM_PI / -2.0f, DeltaTime, XM_PI / 2.0f));
 }
 
-void BaseApp::render()
-{
+void BaseApp::render(){
+
 	// Clear the back buffer
 
 	float ClearColor[4] = { 0.85f, 0.85f, 0.85f, 1.0f }; // red, green, blue, alpha

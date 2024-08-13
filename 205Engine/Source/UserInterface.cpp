@@ -3,8 +3,9 @@
 #include "DeviceContext.h"
 #include "Window.h"
 #include "SwapChain.h"
-void UserInterface::init(void* window, ID3D11Device* device, ID3D11DeviceContext* deviceContext)
-{
+void 
+UserInterface::init(void* window, ID3D11Device* device, ID3D11DeviceContext* deviceContext){
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -29,16 +30,18 @@ void UserInterface::init(void* window, ID3D11Device* device, ID3D11DeviceContext
     ImGui_ImplDX11_Init(device, deviceContext);
 }
 
-void UserInterface::update()
-{
+void
+UserInterface::update(){
+
     //start the Dear ImGui frame
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 }
 
-void UserInterface::render()
-{
+void 
+UserInterface::render(){
+
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     ImGuiIO& io = ImGui::GetIO();
@@ -50,15 +53,17 @@ void UserInterface::render()
     }
 }
 
-void UserInterface::destroy()
-{
+void 
+UserInterface::destroy(){
+
     //Cleanup
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 }
 
-void UserInterface::vec3Control(std::string label, float* values, float resetValues, float columWidth)
+void 
+UserInterface::vec3Control(std::string label, float* values, float resetValues, float columWidth)
 
 {
     ImGuiIO& io = ImGui::GetIO();

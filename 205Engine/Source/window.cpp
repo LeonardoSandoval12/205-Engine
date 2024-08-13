@@ -8,7 +8,8 @@
 /// dejando espacio para añadir la lógica de actualización, renderización y destrucción de recursos.
 
 
-HRESULT Window::init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc)
+HRESULT
+Window::init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc)
 {
     m_hInst = hInstance;
     // Register class
@@ -47,18 +48,18 @@ HRESULT Window::init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc)
     return S_OK;
 }
 
-void Window::update()
-{
+void
+Window::update(){
 
 }
 
-void Window::render()
-{
+void
+Window::render(){
 
 }
 
-void Window::destroy()
-{
+void
+Window::destroy(){
 
 }
 

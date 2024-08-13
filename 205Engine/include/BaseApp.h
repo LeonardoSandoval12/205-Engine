@@ -25,21 +25,23 @@ public:
     ~BaseApp() = default;
 
     HRESULT
-        init();
+    init();
 
     void
-        update();
+    update();
 
     void
-        render();
+    render();
 
     void
-        destroy();
+    destroy();
 
     int run(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow, WNDPROC wndproc);
 
-    void CreateGrid(int width, int depth, float spacing);
+    void 
+    CreateGrid(int width, int depth, float spacing);
 
+    //Variables Globales
     Window                                  m_window;
     Device									m_device;
     DeviceContext							m_deviceContext;

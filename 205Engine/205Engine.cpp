@@ -4,7 +4,10 @@ BaseApp app;
 
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
+                                                             UINT msg, 
+                                                             WPARAM wParam, 
+                                                             LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))

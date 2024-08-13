@@ -2,8 +2,9 @@
 #include "Device.h"
 #include "DeviceContext.h"
 
-void SamplerState::init(Device device)
-{
+void 
+SamplerState::init(Device device){
+
     // Verifica si el dispositivo es válido
     if (device.m_device == nullptr)
     {
@@ -35,19 +36,21 @@ void SamplerState::init(Device device)
     }
 }
 
-void SamplerState::update()
-{
+void 
+SamplerState::update(){
+
     // Método vacío para actualizaciones, puede ser implementado más adelante
 }
 
-void SamplerState::render(DeviceContext& deviceContext, unsigned int StartSlot, unsigned int NumSamplers)
-{
+void
+SamplerState::render(DeviceContext& deviceContext, unsigned int StartSlot, unsigned int NumSamplers){
+
     // Configura el sampler en el dispositivo de contexto
     deviceContext.PSSetSamplers(StartSlot, NumSamplers, &m_sampler);
 }
 
-void SamplerState::destroy()
-{
+void
+SamplerState::destroy(){
     // Liberar el sampler state
     SAFE_RELEASE(m_sampler);
 }

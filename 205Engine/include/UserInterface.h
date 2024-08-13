@@ -15,59 +15,69 @@ public:
     UserInterface() = default;
     ~UserInterface() = default;
 
-    void init(void* window, ID3D11Device* device, ID3D11DeviceContext* deviceContext);
-
-    void update();
-
-    void render();
-
-    void destroy();
-
-    void vec3Control(std::string label, float* values, float resetValues = 0.0f, float columWidth = 100.0f);
+    void 
+    init(void* window, ID3D11Device* device, ID3D11DeviceContext* deviceContext);
 
     void
-        menuBar(Window window, SwapChain swapChain, Texture& backBuffer);
+    update();
 
     void
-        Renderer(Window window, ID3D11ShaderResourceView* renderTexture);
+    render();
+
+    void 
+    destroy();
+
+    void 
+    vec3Control(std::string label, 
+                float* values,
+                float resetValues = 0.0f, 
+                float columWidth = 100.0f);
+
+    void
+    menuBar(Window window, SwapChain swapChain, Texture& backBuffer);
+
+    void
+    Renderer(Window window, ID3D11ShaderResourceView* renderTexture);
 
     //void
     //Inspector(std::vector<Model> & models, int index);
 
     void
-        inspectorContainer();
+    inspectorContainer();
 
     void
-        output();
+    output();
 
     void
-        darkStyle();
+    darkStyle();
 
     void
-        greyStyle();
+    greyStyle();
 
     void
-        GameMakerStyle();
+    GameMakerStyle();
 
     void
-        visualStudioStyle();
+    visualStudioStyle();
 
     void
-        ToolTip(std::string icon, std::string tip);
-    void
-        ToolTip(std::string tip);
+    ToolTip(std::string icon, std::string tip);
 
     void
-        toolTipData();
+    ToolTip(std::string tip);
 
     void
-        ToolBar();
+    toolTipData();
 
     void
-        closeApp();
+    ToolBar();
 
     void
-        RenderFullScreenTransparentWindow();
+    closeApp();
+
+    void
+    RenderFullScreenTransparentWindow();
+
 private:
     bool checkboxValue = true;
     bool checkboxValue2 = false;

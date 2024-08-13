@@ -2,8 +2,9 @@
 #include "Window.h"
 #include "DeviceContext.h"
 
-void Viewport::init(Window window)
-{
+void
+Viewport::init(Window window){
+
     if (window.m_hWnd == nullptr)
     {
         ERROR("Viewport", "init", "CHECK FOR Window window")
@@ -18,15 +19,18 @@ void Viewport::init(Window window)
 
 }
 
-void Viewport::update()
-{
+void 
+Viewport::update(){
+
 }
 
-void Viewport::render(DeviceContext& deviceContext)
-{
+void 
+Viewport::render(DeviceContext& deviceContext){
+
     deviceContext.RSSetViewports(1, &m_viewport);
 }
 
-void Viewport::destroy()
-{
+void 
+Viewport::destroy(){
+
 }

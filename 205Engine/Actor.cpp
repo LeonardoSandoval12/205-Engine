@@ -2,8 +2,8 @@
 #include "MeshComponent.h"
 #include "Device.h"
 
-Actor::Actor(Device device)
-{
+Actor::Actor(Device device){
+
 	std::shared_ptr<Transform> transform = std::make_shared<Transform>();
 	addComponent(transform);
 	std::shared_ptr<MeshComponent> Mesh = std::make_shared<MeshComponent>();
@@ -13,8 +13,9 @@ Actor::Actor(Device device)
 	m_sampler.init(device);
 }
 
-void Actor::update(float deltaTime, DeviceContext deviceContext)
-{
+void 
+Actor::update(float deltaTime, DeviceContext deviceContext){
+
 	getComponent<Transform>()->update(deltaTime);
 
 	model.mWorld = XMMatrixTranspose(getComponent<Transform>()->matrix);
@@ -23,8 +24,9 @@ void Actor::update(float deltaTime, DeviceContext deviceContext)
 }
 
 
-void Actor::render(DeviceContext deviceContext)
-{
+void 
+Actor::render(DeviceContext deviceContext){
+
 	for (unsigned int i = 0; i < m_meshes.size(); i++)
 	{
 		m_vertexBuffers[i].render(deviceContext, 0, 1);
@@ -49,8 +51,9 @@ void Actor::render(DeviceContext deviceContext)
 	}
 }
 
-void Actor::destroy()
-{
+void
+Actor::destroy(){
+
 	for (auto& vertexBuffer : m_vertexBuffers)
 	{
 		vertexBuffer.destroy();
@@ -66,8 +69,9 @@ void Actor::destroy()
 	m_modelBuffer.destroy();
 	m_sampler.destroy();
 }
-void Actor::SetMesh(Device device, std::vector<MeshComponent> meshes)
-{
+void 
+Actor::SetMesh(Device device, std::vector<MeshComponent> meshes){
+
 	m_meshes = meshes;
 
 	for (auto& mesh : m_meshes)
@@ -83,7 +87,8 @@ void Actor::SetMesh(Device device, std::vector<MeshComponent> meshes)
 	}
 }
 
-void Actor::SetTextures(std::vector<Texture> textures)
-{
+void
+Actor::SetTextures(std::vector<Texture> textures){
+
 	m_textures = textures;
 }

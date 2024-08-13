@@ -6,16 +6,22 @@
 /// que establece las vistas de recursos de shader en el contexto del dispositivo y maneja la verificación de errores si los recursos de shader son nulos.
 /// </summary>
 
-void DeviceContext::destroy()
+void
+DeviceContext::destroy()
 {
 	SAFE_RELEASE(m_deviceContext);
 }
 
-void DeviceContext::PSSetShaderResources(unsigned int StartSlot, unsigned int NumViews, ID3D11ShaderResourceView* const* ppShaderResourceViews)
+void
+DeviceContext::PSSetShaderResources(unsigned int StartSlot,
+	                                unsigned int NumViews,
+	                                ID3D11ShaderResourceView* const* ppShaderResourceViews)
 {
 	if (ppShaderResourceViews == nullptr)
 	{
-		ERROR("DeviceContext", "PSSetShaderResources", " CHECK FOR  ID3D11ShaderResourceView* const* ppShaderResourceViews")
+		ERROR("DeviceContext",
+			  "PSSetShaderResources",
+			  " CHECK FOR  ID3D11ShaderResourceView* const* ppShaderResourceViews")
 			exit(1);
 	}
 	else
@@ -23,7 +29,8 @@ void DeviceContext::PSSetShaderResources(unsigned int StartSlot, unsigned int Nu
 		m_deviceContext->PSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
 	}
 }
-void DeviceContext::RSSetViewports(unsigned int NumViewports, const D3D11_VIEWPORT* pViewports)
+void 
+DeviceContext::RSSetViewports(unsigned int NumViewports, const D3D11_VIEWPORT* pViewports)
 {
 
 	if (pViewports == nullptr)
@@ -59,7 +66,10 @@ void DeviceContext::IASetInputLayout(ID3D11InputLayout* pInputLayout)
 	}
 }
 
-void DeviceContext::VSSetShader(ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, unsigned int NumClassInstances)
+void
+DeviceContext::VSSetShader(ID3D11VertexShader* pVertexShader,
+						   ID3D11ClassInstance* const* ppClassInstances,
+						   unsigned int NumClassInstances)
 {
 	if (pVertexShader == nullptr)
 	{
@@ -72,7 +82,10 @@ void DeviceContext::VSSetShader(ID3D11VertexShader* pVertexShader, ID3D11ClassIn
 	}
 }
 
-void DeviceContext::PSSetShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, unsigned int NumClassInstances)
+void 
+DeviceContext::PSSetShader(ID3D11PixelShader* pPixelShader,
+						   ID3D11ClassInstance* const* ppClassInstances, 
+	                       unsigned int NumClassInstances)
 {
 	if (pPixelShader == nullptr)
 	{
@@ -84,23 +97,39 @@ void DeviceContext::PSSetShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInst
 		m_deviceContext->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
 	}
 }
-void DeviceContext::UpdateSubresource(ID3D11Resource* pDstResource, unsigned int DstSubresource, const D3D11_BOX* pDstBox, const void* pSrcData, unsigned int SrcRowPitch, unsigned int SrcDepthPitch)
+void
+DeviceContext::UpdateSubresource(ID3D11Resource* pDstResource,
+								 unsigned int DstSubresource, 
+								 const D3D11_BOX* pDstBox,
+								 const void* pSrcData,
+								 unsigned int SrcRowPitch,
+								 unsigned int SrcDepthPitch)
 {
 	m_deviceContext->UpdateSubresource(pDstResource, DstSubresource,
 		pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 
-void DeviceContext::IASetVertexBuffers(unsigned int StartSlot, unsigned int NumBuffers,
-	ID3D11Buffer* const* ppVertexBuffers, const unsigned int* pStrides, const unsigned int* pOffsets)
+void
+DeviceContext::IASetVertexBuffers(unsigned int StartSlot, 
+								  unsigned int NumBuffers,
+								  ID3D11Buffer* const* ppVertexBuffers,
+								  const unsigned int* pStrides, 
+								  const unsigned int* pOffsets)
 {
 	m_deviceContext->IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
 }
 
-void DeviceContext::IASetIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, unsigned int Offset)
+void
+DeviceContext::IASetIndexBuffer(ID3D11Buffer* pIndexBuffer, 
+								DXGI_FORMAT Format, 
+								unsigned int Offset)
 {
 	m_deviceContext->IASetIndexBuffer(pIndexBuffer, Format, Offset);
 }
-void DeviceContext::PSSetSamplers(unsigned int StartSlot, unsigned int NumSamplers, ID3D11SamplerState* const* ppSamplers)
+void
+DeviceContext::PSSetSamplers(unsigned int StartSlot, 
+							 unsigned int NumSamplers,
+							 ID3D11SamplerState* const* ppSamplers)
 {
 	if (ppSamplers == nullptr)
 	{

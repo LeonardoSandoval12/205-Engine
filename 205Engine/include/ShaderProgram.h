@@ -5,26 +5,38 @@
 class Device;
 class DeviceContext;
 
+//Se encarga de manejar los shaders en un programa gráfico.
 class ShaderProgram
 {
 public:
 	ShaderProgram() = default;
 	~ShaderProgram() = default;
 
-	void init(Device device, std::string fileName, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout);
+	void 
+	init(Device device,
+		 std::string fileName, 
+		 std::vector<D3D11_INPUT_ELEMENT_DESC> Layout);
 
-	void update();
+	void 
+	update();
 
-	void render(DeviceContext& deviceContext);
+	void 
+	render(DeviceContext& deviceContext);
 
-	void destroy();
+	void 
+	destroy();
 
-	HRESULT CompileShaderFromFile(char* szFileName, LPCSTR szEntryPoint,
-		LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
+	HRESULT CompileShaderFromFile(char* szFileName, 
+								  LPCSTR szEntryPoint,
+								  LPCSTR szShaderModel, 
+								  ID3DBlob** ppBlobOut);
 
-	void CreateInputLayout(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout);
+	void 
+	CreateInputLayout(Device device,
+					  std::vector<D3D11_INPUT_ELEMENT_DESC> Layout);
 
-	void CreateShader(Device device, ShaderType type);
+	void
+	CreateShader(Device device, ShaderType type);
 
 public:
 	ID3D11VertexShader* m_VertexShader = nullptr;

@@ -2,8 +2,9 @@
 #include "Device.h"
 #include "DeviceContext.h"
 
-void InputLayout::init(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout, ID3DBlob* VertexshaderData)
-{
+void
+InputLayout::init(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layout, ID3DBlob* VertexshaderData){
+
 	if (Layout.size() == 0)
 	{
 		ERROR("InputLayout", "init", "CHECK FOR std::vector<D3D11_INPUT_ELEMENT_DESC> Layout")
@@ -29,16 +30,17 @@ void InputLayout::init(Device device, std::vector<D3D11_INPUT_ELEMENT_DESC> Layo
 
 }
 
-void InputLayout::update()
-{
+void 
+InputLayout::update(){
+
 }
 
-void InputLayout::render(DeviceContext& deviceContext)
-{
+void
+InputLayout::render(DeviceContext& deviceContext){
 	deviceContext.IASetInputLayout(m_inputLayout);
 }
 
-void InputLayout::destroy()
-{
+void 
+InputLayout::destroy(){
 	SAFE_RELEASE(m_inputLayout);
 }

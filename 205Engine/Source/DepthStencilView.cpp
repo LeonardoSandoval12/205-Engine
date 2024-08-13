@@ -4,8 +4,8 @@
 #include "Texture.h"
 
 
-void DepthStencilView::init(Device& device, Texture& depthStencil, DXGI_FORMAT format) //doble puntero apunta al puntero del recurso.
-{
+void 
+DepthStencilView::init(Device& device, Texture& depthStencil, DXGI_FORMAT format) { 
 	if (device.m_device == nullptr)
 	{
 		ERROR("DepthStencilView", "init", "CHECK FOR Device device")
@@ -33,12 +33,14 @@ void DepthStencilView::init(Device& device, Texture& depthStencil, DXGI_FORMAT f
 
 }
 
-void DepthStencilView::render(DeviceContext& deviceContext)
-{
+void 
+DepthStencilView::render(DeviceContext& deviceContext){
+
 	deviceContext.m_deviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void DepthStencilView::destroy()
-{
+void
+DepthStencilView::destroy(){
+
 	SAFE_RELEASE(m_DepthStencilView);
 }
